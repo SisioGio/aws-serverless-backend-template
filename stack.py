@@ -173,7 +173,7 @@ class MyApiStack(Stack):
         authorizer_lambda = _lambda.Function(
             self, generate_name('authorizer', 'dev', 'lambda'),
             runtime=_lambda.Runtime.PYTHON_3_12,
-            handler="authorizer.handler.handler",
+            handler="handler.authorizer",
             code=_lambda.Code.from_asset("src/authorizer"),
             environment=global_env,
             role=shared_lambda_role,
@@ -183,7 +183,7 @@ class MyApiStack(Stack):
         auth_lambda = _lambda.Function(
             self, generate_name('auth', 'dev', 'lambda'),
             runtime=_lambda.Runtime.PYTHON_3_12,
-            handler="auth.handler.lambda_handler",
+            handler="handler.lambda_handler",
             code=_lambda.Code.from_asset("src/auth"),
             environment=global_env,
             role=shared_lambda_role,
@@ -193,7 +193,7 @@ class MyApiStack(Stack):
         public_lambda = _lambda.Function(
             self, generate_name('public', 'dev', 'lambda'),
             runtime=_lambda.Runtime.PYTHON_3_12,
-            handler="public.handler.lambda_handler",
+            handler="handler.lambda_handler",
             code=_lambda.Code.from_asset("src/public"),
             environment=global_env,
             role=shared_lambda_role,
@@ -203,7 +203,7 @@ class MyApiStack(Stack):
         private_lambda = _lambda.Function(
             self, generate_name('private', 'dev', 'lambda'),
             runtime=_lambda.Runtime.PYTHON_3_12,
-            handler="private.handler.handler",
+            handler="handler.lambda_handler",
             code=_lambda.Code.from_asset("src/private"),
             environment=global_env,
             role=shared_lambda_role,
