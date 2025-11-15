@@ -1,0 +1,1723 @@
+{
+ "Resources": {
+  "lambdaroledevtable195EC1CD": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/lambdarole-dev-table/Resource"
+   }
+  },
+  "lambdaroledevtableDefaultPolicyC0F44D3F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "usersdevtable697667C9",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "actualsdevtable3C089F07",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "FinancialsTableDC870A1A",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "FinancialsTableDC870A1A",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "forecastdevtable580FFE20",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "JwtSecretB8834B39"
+       }
+      },
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "JwtRefreshSecret4736E8C7"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "lambdaroledevtableDefaultPolicyC0F44D3F",
+    "Roles": [
+     {
+      "Ref": "lambdaroledevtable195EC1CD"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/lambdarole-dev-table/DefaultPolicy/Resource"
+   }
+  },
+  "usersdevtable697667C9": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "email",
+      "AttributeType": "S"
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "email",
+      "KeyType": "HASH"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    },
+    "TableName": "users-dev-table"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/users-dev-table/Resource"
+   }
+  },
+  "actualsdevtable3C089F07": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "email",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "date",
+      "AttributeType": "S"
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "email",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "date",
+      "KeyType": "RANGE"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    },
+    "TableName": "actuals-dev-table"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/actuals-dev-table/Resource"
+   }
+  },
+  "forecastdevtable580FFE20": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "email",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "date",
+      "AttributeType": "S"
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "email",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "date",
+      "KeyType": "RANGE"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    },
+    "TableName": "forecast-dev-table"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/forecast-dev-table/Resource"
+   }
+  },
+  "FinancialsTableDC870A1A": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "email",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "date",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "recurrence",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "type",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "category",
+      "AttributeType": "S"
+     }
+    ],
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "RecurrenceTypeIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "recurrence",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "type",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+       "ReadCapacityUnits": 5,
+       "WriteCapacityUnits": 5
+      }
+     },
+     {
+      "IndexName": "CategoryIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "category",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "date",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+       "ReadCapacityUnits": 5,
+       "WriteCapacityUnits": 5
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "email",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "date",
+      "KeyType": "RANGE"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    },
+    "TableName": "financials-dev"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/FinancialsTable/Resource"
+   }
+  },
+  "JwtSecretB8834B39": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": "JWT signing key for development",
+    "GenerateSecretString": {
+     "ExcludePunctuation": true,
+     "IncludeSpace": false,
+     "PasswordLength": 32
+    },
+    "Name": "jwt-dev-secret"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/JwtSecret/Resource"
+   }
+  },
+  "JwtRefreshSecret4736E8C7": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": "JWT Refresh signing key for development",
+    "GenerateSecretString": {
+     "ExcludePunctuation": true,
+     "IncludeSpace": false,
+     "PasswordLength": 64
+    },
+    "Name": "jwt-refresh-dev-secret"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/JwtRefreshSecret/Resource"
+   }
+  },
+  "authorizerdevlambda8092061B": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "03a29e6a79c557d4312d806fe1385159627bf184b52dfdc5401560a95e337671.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "JWT_SECRET_NAME": {
+       "Ref": "JwtSecretB8834B39"
+      },
+      "REFRESH_SECRET_NAME": {
+       "Ref": "JwtRefreshSecret4736E8C7"
+      },
+      "TABLE_USERS": {
+       "Ref": "usersdevtable697667C9"
+      },
+      "TABLE_ACTUALS": {
+       "Ref": "actualsdevtable3C089F07"
+      },
+      "TABLE_FINANCIALS": {
+       "Ref": "FinancialsTableDC870A1A"
+      },
+      "TABLE_FORECAST": {
+       "Ref": "forecastdevtable580FFE20"
+      },
+      "ENVIRONMENT": "dev",
+      "FRONTEND_BASE_URL": "https://localhost:3000/",
+      "JWT_EXPIRATION": "3600",
+      "ACCESS_TOKEN_EXPIRATION": "3600",
+      "APP_NAME": "MyFinancialAdvisor"
+     }
+    },
+    "Handler": "authorizer.handler.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "lambdaroledevtable195EC1CD",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.12"
+   },
+   "DependsOn": [
+    "lambdaroledevtableDefaultPolicyC0F44D3F",
+    "lambdaroledevtable195EC1CD"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/authorizer-dev-lambda/Resource",
+    "aws:asset:path": "asset.03a29e6a79c557d4312d806fe1385159627bf184b52dfdc5401560a95e337671",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "authorizerdevlambdaMyApiStackLambdaTokenAuthorizer7E7DFFBFPermissions2E8A50D1": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "authorizerdevlambda8092061B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "restapidevapigatewayA45C1A6C"
+       },
+       "/authorizers/",
+       {
+        "Ref": "LambdaTokenAuthorizer5D128412"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/authorizer-dev-lambda/MyApiStackLambdaTokenAuthorizer7E7DFFBF:Permissions"
+   }
+  },
+  "authdevlambda4C0D1575": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "03a29e6a79c557d4312d806fe1385159627bf184b52dfdc5401560a95e337671.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "JWT_SECRET_NAME": {
+       "Ref": "JwtSecretB8834B39"
+      },
+      "REFRESH_SECRET_NAME": {
+       "Ref": "JwtRefreshSecret4736E8C7"
+      },
+      "TABLE_USERS": {
+       "Ref": "usersdevtable697667C9"
+      },
+      "TABLE_ACTUALS": {
+       "Ref": "actualsdevtable3C089F07"
+      },
+      "TABLE_FINANCIALS": {
+       "Ref": "FinancialsTableDC870A1A"
+      },
+      "TABLE_FORECAST": {
+       "Ref": "forecastdevtable580FFE20"
+      },
+      "ENVIRONMENT": "dev",
+      "FRONTEND_BASE_URL": "https://localhost:3000/",
+      "JWT_EXPIRATION": "3600",
+      "ACCESS_TOKEN_EXPIRATION": "3600",
+      "APP_NAME": "MyFinancialAdvisor"
+     }
+    },
+    "Handler": "auth.handler.lambda_handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "lambdaroledevtable195EC1CD",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.12"
+   },
+   "DependsOn": [
+    "lambdaroledevtableDefaultPolicyC0F44D3F",
+    "lambdaroledevtable195EC1CD"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/auth-dev-lambda/Resource",
+    "aws:asset:path": "asset.03a29e6a79c557d4312d806fe1385159627bf184b52dfdc5401560a95e337671",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "publicdevlambda09B52B26": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "03a29e6a79c557d4312d806fe1385159627bf184b52dfdc5401560a95e337671.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "JWT_SECRET_NAME": {
+       "Ref": "JwtSecretB8834B39"
+      },
+      "REFRESH_SECRET_NAME": {
+       "Ref": "JwtRefreshSecret4736E8C7"
+      },
+      "TABLE_USERS": {
+       "Ref": "usersdevtable697667C9"
+      },
+      "TABLE_ACTUALS": {
+       "Ref": "actualsdevtable3C089F07"
+      },
+      "TABLE_FINANCIALS": {
+       "Ref": "FinancialsTableDC870A1A"
+      },
+      "TABLE_FORECAST": {
+       "Ref": "forecastdevtable580FFE20"
+      },
+      "ENVIRONMENT": "dev",
+      "FRONTEND_BASE_URL": "https://localhost:3000/",
+      "JWT_EXPIRATION": "3600",
+      "ACCESS_TOKEN_EXPIRATION": "3600",
+      "APP_NAME": "MyFinancialAdvisor"
+     }
+    },
+    "Handler": "public.handler.lambda_handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "lambdaroledevtable195EC1CD",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.12"
+   },
+   "DependsOn": [
+    "lambdaroledevtableDefaultPolicyC0F44D3F",
+    "lambdaroledevtable195EC1CD"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/public-dev-lambda/Resource",
+    "aws:asset:path": "asset.03a29e6a79c557d4312d806fe1385159627bf184b52dfdc5401560a95e337671",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "privatedevlambda78C52DCE": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "03a29e6a79c557d4312d806fe1385159627bf184b52dfdc5401560a95e337671.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "JWT_SECRET_NAME": {
+       "Ref": "JwtSecretB8834B39"
+      },
+      "REFRESH_SECRET_NAME": {
+       "Ref": "JwtRefreshSecret4736E8C7"
+      },
+      "TABLE_USERS": {
+       "Ref": "usersdevtable697667C9"
+      },
+      "TABLE_ACTUALS": {
+       "Ref": "actualsdevtable3C089F07"
+      },
+      "TABLE_FINANCIALS": {
+       "Ref": "FinancialsTableDC870A1A"
+      },
+      "TABLE_FORECAST": {
+       "Ref": "forecastdevtable580FFE20"
+      },
+      "ENVIRONMENT": "dev",
+      "FRONTEND_BASE_URL": "https://localhost:3000/",
+      "JWT_EXPIRATION": "3600",
+      "ACCESS_TOKEN_EXPIRATION": "3600",
+      "APP_NAME": "MyFinancialAdvisor"
+     }
+    },
+    "Handler": "private.handler.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "lambdaroledevtable195EC1CD",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.12"
+   },
+   "DependsOn": [
+    "lambdaroledevtableDefaultPolicyC0F44D3F",
+    "lambdaroledevtable195EC1CD"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/private-dev-lambda/Resource",
+    "aws:asset:path": "asset.03a29e6a79c557d4312d806fe1385159627bf184b52dfdc5401560a95e337671",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "restapidevapigatewayA45C1A6C": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "EndpointConfiguration": {
+     "Types": [
+      "REGIONAL"
+     ]
+    },
+    "Name": "Financial API (dev)"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Resource"
+   }
+  },
+  "restapidevapigatewayCloudWatchRole2B9EB6BE": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/CloudWatchRole/Resource"
+   }
+  },
+  "restapidevapigatewayAccount044E0E80": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "restapidevapigatewayCloudWatchRole2B9EB6BE",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "restapidevapigatewayA45C1A6C"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Account"
+   }
+  },
+  "restapidevapigatewayDeployment1622DFFE5eabfe5fcbd1cc5d297b588dc474fcc9": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "Automatically created by the RestApi construct",
+    "RestApiId": {
+     "Ref": "restapidevapigatewayA45C1A6C"
+    }
+   },
+   "DependsOn": [
+    "restapidevapigatewayauthPOSTC88136E8",
+    "restapidevapigatewayauth5A1E7ADA",
+    "restapidevapigatewayprivateGET3C0E4544",
+    "restapidevapigatewayprivate859ABED9",
+    "restapidevapigatewaypublicGET73731839",
+    "restapidevapigatewaypublic5A71C36A"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Deployment/Resource",
+    "aws:cdk:do-not-refactor": true
+   }
+  },
+  "restapidevapigatewayDeploymentStagedev8BC44AE2": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "restapidevapigatewayDeployment1622DFFE5eabfe5fcbd1cc5d297b588dc474fcc9"
+    },
+    "RestApiId": {
+     "Ref": "restapidevapigatewayA45C1A6C"
+    },
+    "StageName": "dev"
+   },
+   "DependsOn": [
+    "restapidevapigatewayAccount044E0E80"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/DeploymentStage.dev/Resource"
+   }
+  },
+  "restapidevapigatewayauth5A1E7ADA": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "restapidevapigatewayA45C1A6C",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "auth",
+    "RestApiId": {
+     "Ref": "restapidevapigatewayA45C1A6C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/auth/Resource"
+   }
+  },
+  "restapidevapigatewayauthPOSTApiPermissionMyApiStackrestapidevapigateway098A787EPOSTauth55AF4917": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "authdevlambda4C0D1575",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "restapidevapigatewayA45C1A6C"
+       },
+       "/",
+       {
+        "Ref": "restapidevapigatewayDeploymentStagedev8BC44AE2"
+       },
+       "/POST/auth"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/auth/POST/ApiPermission.MyApiStackrestapidevapigateway098A787E.POST..auth"
+   }
+  },
+  "restapidevapigatewayauthPOSTApiPermissionTestMyApiStackrestapidevapigateway098A787EPOSTauth969ADB2A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "authdevlambda4C0D1575",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "restapidevapigatewayA45C1A6C"
+       },
+       "/test-invoke-stage/POST/auth"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/auth/POST/ApiPermission.Test.MyApiStackrestapidevapigateway098A787E.POST..auth"
+   }
+  },
+  "restapidevapigatewayauthPOSTC88136E8": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "authdevlambda4C0D1575",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "restapidevapigatewayauth5A1E7ADA"
+    },
+    "RestApiId": {
+     "Ref": "restapidevapigatewayA45C1A6C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/auth/POST/Resource"
+   }
+  },
+  "restapidevapigatewaypublic5A71C36A": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "restapidevapigatewayA45C1A6C",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "public",
+    "RestApiId": {
+     "Ref": "restapidevapigatewayA45C1A6C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/public/Resource"
+   }
+  },
+  "restapidevapigatewaypublicGETApiPermissionMyApiStackrestapidevapigateway098A787EGETpublicCDDCE587": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "publicdevlambda09B52B26",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "restapidevapigatewayA45C1A6C"
+       },
+       "/",
+       {
+        "Ref": "restapidevapigatewayDeploymentStagedev8BC44AE2"
+       },
+       "/GET/public"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/public/GET/ApiPermission.MyApiStackrestapidevapigateway098A787E.GET..public"
+   }
+  },
+  "restapidevapigatewaypublicGETApiPermissionTestMyApiStackrestapidevapigateway098A787EGETpublicEF381492": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "publicdevlambda09B52B26",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "restapidevapigatewayA45C1A6C"
+       },
+       "/test-invoke-stage/GET/public"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/public/GET/ApiPermission.Test.MyApiStackrestapidevapigateway098A787E.GET..public"
+   }
+  },
+  "restapidevapigatewaypublicGET73731839": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "publicdevlambda09B52B26",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "restapidevapigatewaypublic5A71C36A"
+    },
+    "RestApiId": {
+     "Ref": "restapidevapigatewayA45C1A6C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/public/GET/Resource"
+   }
+  },
+  "restapidevapigatewayprivate859ABED9": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "restapidevapigatewayA45C1A6C",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "private",
+    "RestApiId": {
+     "Ref": "restapidevapigatewayA45C1A6C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/private/Resource"
+   }
+  },
+  "restapidevapigatewayprivateGETApiPermissionMyApiStackrestapidevapigateway098A787EGETprivate0F80E62E": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "privatedevlambda78C52DCE",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "restapidevapigatewayA45C1A6C"
+       },
+       "/",
+       {
+        "Ref": "restapidevapigatewayDeploymentStagedev8BC44AE2"
+       },
+       "/GET/private"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/private/GET/ApiPermission.MyApiStackrestapidevapigateway098A787E.GET..private"
+   }
+  },
+  "restapidevapigatewayprivateGETApiPermissionTestMyApiStackrestapidevapigateway098A787EGETprivate761289B3": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "privatedevlambda78C52DCE",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "restapidevapigatewayA45C1A6C"
+       },
+       "/test-invoke-stage/GET/private"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/private/GET/ApiPermission.Test.MyApiStackrestapidevapigateway098A787E.GET..private"
+   }
+  },
+  "restapidevapigatewayprivateGET3C0E4544": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "CUSTOM",
+    "AuthorizerId": {
+     "Ref": "LambdaTokenAuthorizer5D128412"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "privatedevlambda78C52DCE",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "restapidevapigatewayprivate859ABED9"
+    },
+    "RestApiId": {
+     "Ref": "restapidevapigatewayA45C1A6C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/private/GET/Resource"
+   }
+  },
+  "LambdaTokenAuthorizer5D128412": {
+   "Type": "AWS::ApiGateway::Authorizer",
+   "Properties": {
+    "AuthorizerResultTtlInSeconds": 300,
+    "AuthorizerUri": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           ":",
+           {
+            "Fn::GetAtt": [
+             "authorizerdevlambda8092061B",
+             "Arn"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       ":apigateway:",
+       {
+        "Fn::Select": [
+         3,
+         {
+          "Fn::Split": [
+           ":",
+           {
+            "Fn::GetAtt": [
+             "authorizerdevlambda8092061B",
+             "Arn"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       ":lambda:path/2015-03-31/functions/",
+       {
+        "Fn::GetAtt": [
+         "authorizerdevlambda8092061B",
+         "Arn"
+        ]
+       },
+       "/invocations"
+      ]
+     ]
+    },
+    "IdentitySource": "method.request.header.Authorization",
+    "Name": "MyApiStackLambdaTokenAuthorizer7E7DFFBF",
+    "RestApiId": {
+     "Ref": "restapidevapigatewayA45C1A6C"
+    },
+    "Type": "TOKEN"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/LambdaTokenAuthorizer/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02PwW7DIBBEvyV3QlP7C5xWvVWJnNyjNd461AYsdlHkIv69AqdNTvNmGe0OlayqWu42cKOt6sftpDsZTwxqFHCjS9RgZGzdhOLtyxY9ukmrJduVkugXC8b1nYxn6NZkgSQIlUcmAxYG9DKeis+BlZKYwHQ9yPgRrGLtbH575iN6o4m0s0lQfQEiZJJNFkG13Ac1Iu+BUMCsB2C8wSJji8TNrEvnBzZKuWBZvOM8ucWgLU2e3IlhKPVXaJFc8ArL+j9z37nyJ/LV9Xl0p7Mb0TaBr87rH/Tl6r9L6bGl/CCf0XbIqUPgOXASx4Wvzr7U8rWSu803ab31wbI2KNtVfwHblvAfsgEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyApiStack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "restapidevapigatewayEndpoint5284EF5E": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "restapidevapigatewayA45C1A6C"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "restapidevapigatewayDeploymentStagedev8BC44AE2"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "usersdevtableName": {
+   "Value": {
+    "Ref": "usersdevtable697667C9"
+   }
+  },
+  "actualsdevtableName": {
+   "Value": {
+    "Ref": "actualsdevtable3C089F07"
+   }
+  },
+  "FinancialsTableName": {
+   "Value": {
+    "Ref": "FinancialsTableDC870A1A"
+   }
+  },
+  "forecastdevtableName": {
+   "Value": {
+    "Ref": "forecastdevtable580FFE20"
+   }
+  },
+  "publicdevlambdaArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "publicdevlambda09B52B26",
+     "Arn"
+    ]
+   }
+  },
+  "privatedevlambdaArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "privatedevlambda78C52DCE",
+     "Arn"
+    ]
+   }
+  },
+  "authdevlambdaArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "authdevlambda4C0D1575",
+     "Arn"
+    ]
+   }
+  },
+  "authorizerdevlambdaArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "authorizerdevlambda8092061B",
+     "Arn"
+    ]
+   }
+  },
+  "JwtSecretArn": {
+   "Value": {
+    "Ref": "JwtSecretB8834B39"
+   }
+  },
+  "JwtRefreshSecretArn": {
+   "Value": {
+    "Ref": "JwtRefreshSecret4736E8C7"
+   }
+  },
+  "ApiEndpoint": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "restapidevapigatewayA45C1A6C"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "restapidevapigatewayDeploymentStagedev8BC44AE2"
+      },
+      "/"
+     ]
+    ]
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-3"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-4"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Equals": [
+      {
+       "Ref": "AWS::Region"
+      },
+      "us-west-2"
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
