@@ -164,7 +164,7 @@ class MyApiStack(Stack):
         
         utils_layer = _lambda.LayerVersion(
             self, "UtilsLayer",
-            code=_lambda.Code.from_asset("src/utils"),
+            code=_lambda.Code.from_asset("src/layer"),
             compatible_runtimes=[_lambda.Runtime.PYTHON_3_12],
             description="Shared utils"
         )
