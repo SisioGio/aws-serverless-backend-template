@@ -114,8 +114,8 @@ class MyApiStack(Stack):
         # JWT secret in Secrets Manager
         jwt_secret = secretsmanager.Secret(
             self,
-            "JwtSecret",
-            secret_name=generate_name('jwt','dev','secret'),
+            "JwtSecretKey",
+            secret_name=generate_name('jwtkey','dev','secret'),
             description="JWT signing key for development",
             generate_secret_string=secretsmanager.SecretStringGenerator(
                 exclude_punctuation=True,
@@ -125,8 +125,8 @@ class MyApiStack(Stack):
         )
         jwt_refresh_secret = secretsmanager.Secret(
             self,
-            "JwtRefreshSecret",
-            secret_name=generate_name('jwt-refresh','dev','secret'),
+            "JwtRefreshSecretKey",
+            secret_name=generate_name('jwt-refresh-key','dev','secret'),
             description="JWT Refresh signing key for development",
             generate_secret_string=secretsmanager.SecretStringGenerator(
                 exclude_punctuation=True,
