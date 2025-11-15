@@ -3,5 +3,5 @@ import aws_cdk as cdk
 from stack import MyApiStack
 
 app = cdk.App()
-MyApiStack(app, "MyApiStack")
+MyApiStack(app, "TemplateServerlessApp")
 app.synth()

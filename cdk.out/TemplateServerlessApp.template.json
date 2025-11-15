@@ -31,7 +31,7 @@
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/lambdarole-dev-table/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/lambdarole-dev-table/Resource"
    }
   },
   "lambdaroledevtableDefaultPolicyC0F44D3F": {
@@ -193,7 +193,7 @@
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/lambdarole-dev-table/DefaultPolicy/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/lambdarole-dev-table/DefaultPolicy/Resource"
    }
   },
   "usersdevtable697667C9": {
@@ -220,7 +220,7 @@
    "UpdateReplacePolicy": "Retain",
    "DeletionPolicy": "Retain",
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/users-dev-table/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/users-dev-table/Resource"
    }
   },
   "actualsdevtable3C089F07": {
@@ -255,7 +255,7 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/actuals-dev-table/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/actuals-dev-table/Resource"
    }
   },
   "forecastdevtable580FFE20": {
@@ -290,7 +290,7 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/forecast-dev-table/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/forecast-dev-table/Resource"
    }
   },
   "FinancialsTableDC870A1A": {
@@ -379,7 +379,7 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/FinancialsTable/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/FinancialsTable/Resource"
    }
   },
   "JwtSecretB8834B39": {
@@ -396,7 +396,7 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/JwtSecret/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/JwtSecret/Resource"
    }
   },
   "JwtRefreshSecret4736E8C7": {
@@ -413,7 +413,28 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/JwtRefreshSecret/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/JwtRefreshSecret/Resource"
+   }
+  },
+  "UtilsLayerD4171181": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "CompatibleRuntimes": [
+     "python3.12"
+    ],
+    "Content": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "9cd7a354041ba6b0d3d89ae661e3ca5b9f4dd7baef817a6e31aeeb81eebab64f.zip"
+    },
+    "Description": "Shared utils"
+   },
+   "Metadata": {
+    "aws:cdk:path": "TemplateServerlessApp/UtilsLayer/Resource",
+    "aws:asset:path": "asset.9cd7a354041ba6b0d3d89ae661e3ca5b9f4dd7baef817a6e31aeeb81eebab64f",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Content"
    }
   },
   "authorizerdevlambda8092061B": {
@@ -423,7 +444,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip"
+     "S3Key": "30479169ed88142a76b53b2113c6d95e66e043a89e2661969ae5cc283e580fae.zip"
     },
     "Environment": {
      "Variables": {
@@ -453,6 +474,11 @@
      }
     },
     "Handler": "authorizer.handler.handler",
+    "Layers": [
+     {
+      "Ref": "UtilsLayerD4171181"
+     }
+    ],
     "Role": {
      "Fn::GetAtt": [
       "lambdaroledevtable195EC1CD",
@@ -466,13 +492,13 @@
     "lambdaroledevtable195EC1CD"
    ],
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/authorizer-dev-lambda/Resource",
-    "aws:asset:path": "asset.1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0",
+    "aws:cdk:path": "TemplateServerlessApp/authorizer-dev-lambda/Resource",
+    "aws:asset:path": "asset.30479169ed88142a76b53b2113c6d95e66e043a89e2661969ae5cc283e580fae",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
   },
-  "authorizerdevlambdaMyApiStackLambdaTokenAuthorizer7E7DFFBFPermissions2E8A50D1": {
+  "authorizerdevlambdaTemplateServerlessAppLambdaTokenAuthorizer42BE3046PermissionsAFCBB7E7": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -512,7 +538,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/authorizer-dev-lambda/MyApiStackLambdaTokenAuthorizer7E7DFFBF:Permissions"
+    "aws:cdk:path": "TemplateServerlessApp/authorizer-dev-lambda/TemplateServerlessAppLambdaTokenAuthorizer42BE3046:Permissions"
    }
   },
   "authdevlambda4C0D1575": {
@@ -522,7 +548,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip"
+     "S3Key": "d9e6a618938c383a579f4d1077f970904d7fb6ed14aba04050a5a2c635a809b7.zip"
     },
     "Environment": {
      "Variables": {
@@ -552,6 +578,11 @@
      }
     },
     "Handler": "auth.handler.lambda_handler",
+    "Layers": [
+     {
+      "Ref": "UtilsLayerD4171181"
+     }
+    ],
     "Role": {
      "Fn::GetAtt": [
       "lambdaroledevtable195EC1CD",
@@ -565,8 +596,8 @@
     "lambdaroledevtable195EC1CD"
    ],
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/auth-dev-lambda/Resource",
-    "aws:asset:path": "asset.1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0",
+    "aws:cdk:path": "TemplateServerlessApp/auth-dev-lambda/Resource",
+    "aws:asset:path": "asset.d9e6a618938c383a579f4d1077f970904d7fb6ed14aba04050a5a2c635a809b7",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -578,7 +609,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip"
+     "S3Key": "78464af0eea7c9b4064d7dabe21f1978af4ebf22b843c7cb53a5b05392f63da1.zip"
     },
     "Environment": {
      "Variables": {
@@ -608,6 +639,11 @@
      }
     },
     "Handler": "public.handler.lambda_handler",
+    "Layers": [
+     {
+      "Ref": "UtilsLayerD4171181"
+     }
+    ],
     "Role": {
      "Fn::GetAtt": [
       "lambdaroledevtable195EC1CD",
@@ -621,8 +657,8 @@
     "lambdaroledevtable195EC1CD"
    ],
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/public-dev-lambda/Resource",
-    "aws:asset:path": "asset.1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0",
+    "aws:cdk:path": "TemplateServerlessApp/public-dev-lambda/Resource",
+    "aws:asset:path": "asset.78464af0eea7c9b4064d7dabe21f1978af4ebf22b843c7cb53a5b05392f63da1",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -634,7 +670,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip"
+     "S3Key": "f1e1eb304bf6330261425b91121a9ca2046ce5ba16e7f1f0c06f401103cb1e90.zip"
     },
     "Environment": {
      "Variables": {
@@ -664,6 +700,11 @@
      }
     },
     "Handler": "private.handler.handler",
+    "Layers": [
+     {
+      "Ref": "UtilsLayerD4171181"
+     }
+    ],
     "Role": {
      "Fn::GetAtt": [
       "lambdaroledevtable195EC1CD",
@@ -677,8 +718,8 @@
     "lambdaroledevtable195EC1CD"
    ],
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/private-dev-lambda/Resource",
-    "aws:asset:path": "asset.1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0",
+    "aws:cdk:path": "TemplateServerlessApp/private-dev-lambda/Resource",
+    "aws:asset:path": "asset.f1e1eb304bf6330261425b91121a9ca2046ce5ba16e7f1f0c06f401103cb1e90",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -694,7 +735,7 @@
     "Name": "Financial API (dev)"
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Resource"
    }
   },
   "restapidevapigatewayCloudWatchRole2B9EB6BE": {
@@ -730,7 +771,7 @@
    "UpdateReplacePolicy": "Retain",
    "DeletionPolicy": "Retain",
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/CloudWatchRole/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/CloudWatchRole/Resource"
    }
   },
   "restapidevapigatewayAccount044E0E80": {
@@ -749,10 +790,10 @@
    "UpdateReplacePolicy": "Retain",
    "DeletionPolicy": "Retain",
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Account"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Account"
    }
   },
-  "restapidevapigatewayDeployment1622DFFE5eabfe5fcbd1cc5d297b588dc474fcc9": {
+  "restapidevapigatewayDeployment1622DFFEa785ea2b10c117d3e78e1ff12e1f966e": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Automatically created by the RestApi construct",
@@ -769,7 +810,7 @@
     "restapidevapigatewaypublic5A71C36A"
    ],
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Deployment/Resource",
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Deployment/Resource",
     "aws:cdk:do-not-refactor": true
    }
   },
@@ -777,7 +818,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "restapidevapigatewayDeployment1622DFFE5eabfe5fcbd1cc5d297b588dc474fcc9"
+     "Ref": "restapidevapigatewayDeployment1622DFFEa785ea2b10c117d3e78e1ff12e1f966e"
     },
     "RestApiId": {
      "Ref": "restapidevapigatewayA45C1A6C"
@@ -788,7 +829,7 @@
     "restapidevapigatewayAccount044E0E80"
    ],
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/DeploymentStage.dev/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/DeploymentStage.dev/Resource"
    }
   },
   "restapidevapigatewayauth5A1E7ADA": {
@@ -806,10 +847,10 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/auth/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Default/auth/Resource"
    }
   },
-  "restapidevapigatewayauthPOSTApiPermissionMyApiStackrestapidevapigateway098A787EPOSTauth55AF4917": {
+  "restapidevapigatewayauthPOSTApiPermissionTemplateServerlessApprestapidevapigatewayDCAFE925POSTauth975A4F7A": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -850,10 +891,10 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/auth/POST/ApiPermission.MyApiStackrestapidevapigateway098A787E.POST..auth"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Default/auth/POST/ApiPermission.TemplateServerlessApprestapidevapigatewayDCAFE925.POST..auth"
    }
   },
-  "restapidevapigatewayauthPOSTApiPermissionTestMyApiStackrestapidevapigateway098A787EPOSTauth969ADB2A": {
+  "restapidevapigatewayauthPOSTApiPermissionTestTemplateServerlessApprestapidevapigatewayDCAFE925POSTauth84B4C062": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -890,7 +931,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/auth/POST/ApiPermission.Test.MyApiStackrestapidevapigateway098A787E.POST..auth"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Default/auth/POST/ApiPermission.Test.TemplateServerlessApprestapidevapigatewayDCAFE925.POST..auth"
    }
   },
   "restapidevapigatewayauthPOSTC88136E8": {
@@ -933,7 +974,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/auth/POST/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Default/auth/POST/Resource"
    }
   },
   "restapidevapigatewaypublic5A71C36A": {
@@ -951,10 +992,10 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/public/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Default/public/Resource"
    }
   },
-  "restapidevapigatewaypublicGETApiPermissionMyApiStackrestapidevapigateway098A787EGETpublicCDDCE587": {
+  "restapidevapigatewaypublicGETApiPermissionTemplateServerlessApprestapidevapigatewayDCAFE925GETpublicDFEF66C4": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -995,10 +1036,10 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/public/GET/ApiPermission.MyApiStackrestapidevapigateway098A787E.GET..public"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Default/public/GET/ApiPermission.TemplateServerlessApprestapidevapigatewayDCAFE925.GET..public"
    }
   },
-  "restapidevapigatewaypublicGETApiPermissionTestMyApiStackrestapidevapigateway098A787EGETpublicEF381492": {
+  "restapidevapigatewaypublicGETApiPermissionTestTemplateServerlessApprestapidevapigatewayDCAFE925GETpublic4F281852": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -1035,7 +1076,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/public/GET/ApiPermission.Test.MyApiStackrestapidevapigateway098A787E.GET..public"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Default/public/GET/ApiPermission.Test.TemplateServerlessApprestapidevapigatewayDCAFE925.GET..public"
    }
   },
   "restapidevapigatewaypublicGET73731839": {
@@ -1078,7 +1119,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/public/GET/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Default/public/GET/Resource"
    }
   },
   "restapidevapigatewayprivate859ABED9": {
@@ -1096,10 +1137,10 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/private/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Default/private/Resource"
    }
   },
-  "restapidevapigatewayprivateGETApiPermissionMyApiStackrestapidevapigateway098A787EGETprivate0F80E62E": {
+  "restapidevapigatewayprivateGETApiPermissionTemplateServerlessApprestapidevapigatewayDCAFE925GETprivateF25766EA": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -1140,10 +1181,10 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/private/GET/ApiPermission.MyApiStackrestapidevapigateway098A787E.GET..private"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Default/private/GET/ApiPermission.TemplateServerlessApprestapidevapigatewayDCAFE925.GET..private"
    }
   },
-  "restapidevapigatewayprivateGETApiPermissionTestMyApiStackrestapidevapigateway098A787EGETprivate761289B3": {
+  "restapidevapigatewayprivateGETApiPermissionTestTemplateServerlessApprestapidevapigatewayDCAFE925GETprivateDEFC9F11": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -1180,7 +1221,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/private/GET/ApiPermission.Test.MyApiStackrestapidevapigateway098A787E.GET..private"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Default/private/GET/ApiPermission.Test.TemplateServerlessApprestapidevapigatewayDCAFE925.GET..private"
    }
   },
   "restapidevapigatewayprivateGET3C0E4544": {
@@ -1226,7 +1267,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/restapi-dev-apigateway/Default/private/GET/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/restapi-dev-apigateway/Default/private/GET/Resource"
    }
   },
   "LambdaTokenAuthorizer5D128412": {
@@ -1283,23 +1324,23 @@
      ]
     },
     "IdentitySource": "method.request.header.Authorization",
-    "Name": "MyApiStackLambdaTokenAuthorizer7E7DFFBF",
+    "Name": "TemplateServerlessAppLambdaTokenAuthorizer42BE3046",
     "RestApiId": {
      "Ref": "restapidevapigatewayA45C1A6C"
     },
     "Type": "TOKEN"
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/LambdaTokenAuthorizer/Resource"
+    "aws:cdk:path": "TemplateServerlessApp/LambdaTokenAuthorizer/Resource"
    }
   },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02PwW7DIBBEvyV3QlP7C5xWvVWJnNyjNd461AYsdlHkIv69AqdNTvNmGe0OlayqWu42cKOt6sftpDsZTwxqFHCjS9RgZGzdhOLtyxY9ukmrJduVkugXC8b1nYxn6NZkgSQIlUcmAxYG9DKeis+BlZKYwHQ9yPgRrGLtbH575iN6o4m0s0lQfQEiZJJNFkG13Ac1Iu+BUMCsB2C8wSJji8TNrEvnBzZKuWBZvOM8ucWgLU2e3IlhKPVXaJFc8ArL+j9z37nyJ/LV9Xl0p7Mb0TaBr87rH/Tl6r9L6bGl/CCf0XbIqUPgOXASx4Wvzr7U8rWSu803ab31wbI2KNtVfwHblvAfsgEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WPwU7DMBBEv6V315TkC1IQJxBRWnGtNs6SmsR25F2rClb+HdkptJzmjXe06ylkUZRyt4ELbVU3bEfdynhgUIOAC52iBiNj40YUT582a+1GreZkV1pEN1swrmtlPEK7JjMsglB5ZDJgoUcv4yH7FFhpESOYtgMZX2FG/4GetLNp/s+/BKv4OrjnGr3RlCKLoPIERMgkqySCSrkPakDeA6GASffAeIFZxgaJq0nnQjeslHLBsnjGaXSzQZu/eecODH3utkKD5IJXmNf/muvOld+Qz65LT1c6ugFtFfjsvP5Gn6/+uWW5bckN0hlt+5R6DzwFXkQ989nZh1I+FnK3+SKttz5Y1gZls+oPt8cWe88BAAA="
    },
    "Metadata": {
-    "aws:cdk:path": "MyApiStack/CDKMetadata/Default"
+    "aws:cdk:path": "TemplateServerlessApp/CDKMetadata/Default"
    },
    "Condition": "CDKMetadataAvailable"
   }

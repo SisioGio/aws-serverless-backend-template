@@ -1,28 +1,28 @@
 {
   "version": "48.0.0",
   "artifacts": {
-    "MyApiStack.assets": {
+    "TemplateServerlessApp.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "MyApiStack.assets.json",
+        "file": "TemplateServerlessApp.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "MyApiStack": {
+    "TemplateServerlessApp": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://unknown-account/unknown-region",
       "properties": {
-        "templateFile": "MyApiStack.template.json",
+        "templateFile": "TemplateServerlessApp.template.json",
         "terminationProtection": false,
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/901670efecf0247ebb1ee75432b9683230cb1df07613e3170258075bd6e89e46.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/d675fcff5ffd3f47fd4fd40d11e6183395e9a3139d4af1241abb4491ce62e4fd.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "MyApiStack.assets"
+          "TemplateServerlessApp.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
@@ -31,22 +31,22 @@
         }
       },
       "dependencies": [
-        "MyApiStack.assets"
+        "TemplateServerlessApp.assets"
       ],
       "metadata": {
-        "/MyApiStack/lambdarole-dev-table/Resource": [
+        "/TemplateServerlessApp/lambdarole-dev-table/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "lambdaroledevtable195EC1CD"
           }
         ],
-        "/MyApiStack/lambdarole-dev-table/DefaultPolicy/Resource": [
+        "/TemplateServerlessApp/lambdarole-dev-table/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "lambdaroledevtableDefaultPolicyC0F44D3F"
           }
         ],
-        "/MyApiStack/users-dev-table": [
+        "/TemplateServerlessApp/users-dev-table": [
           {
             "type": "aws:cdk:hasPhysicalName",
             "data": {
@@ -54,13 +54,13 @@
             }
           }
         ],
-        "/MyApiStack/users-dev-table/Resource": [
+        "/TemplateServerlessApp/users-dev-table/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "usersdevtable697667C9"
           }
         ],
-        "/MyApiStack/actuals-dev-table": [
+        "/TemplateServerlessApp/actuals-dev-table": [
           {
             "type": "aws:cdk:hasPhysicalName",
             "data": {
@@ -68,13 +68,13 @@
             }
           }
         ],
-        "/MyApiStack/actuals-dev-table/Resource": [
+        "/TemplateServerlessApp/actuals-dev-table/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "actualsdevtable3C089F07"
           }
         ],
-        "/MyApiStack/forecast-dev-table": [
+        "/TemplateServerlessApp/forecast-dev-table": [
           {
             "type": "aws:cdk:hasPhysicalName",
             "data": {
@@ -82,13 +82,13 @@
             }
           }
         ],
-        "/MyApiStack/forecast-dev-table/Resource": [
+        "/TemplateServerlessApp/forecast-dev-table/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "forecastdevtable580FFE20"
           }
         ],
-        "/MyApiStack/FinancialsTable": [
+        "/TemplateServerlessApp/FinancialsTable": [
           {
             "type": "aws:cdk:hasPhysicalName",
             "data": {
@@ -96,260 +96,266 @@
             }
           }
         ],
-        "/MyApiStack/FinancialsTable/Resource": [
+        "/TemplateServerlessApp/FinancialsTable/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "FinancialsTableDC870A1A"
           }
         ],
-        "/MyApiStack/JwtSecret/Resource": [
+        "/TemplateServerlessApp/JwtSecret/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "JwtSecretB8834B39"
           }
         ],
-        "/MyApiStack/JwtRefreshSecret/Resource": [
+        "/TemplateServerlessApp/JwtRefreshSecret/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "JwtRefreshSecret4736E8C7"
           }
         ],
-        "/MyApiStack/authorizer-dev-lambda/Resource": [
+        "/TemplateServerlessApp/UtilsLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UtilsLayerD4171181"
+          }
+        ],
+        "/TemplateServerlessApp/authorizer-dev-lambda/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "authorizerdevlambda8092061B"
           }
         ],
-        "/MyApiStack/authorizer-dev-lambda/MyApiStackLambdaTokenAuthorizer7E7DFFBF:Permissions": [
+        "/TemplateServerlessApp/authorizer-dev-lambda/TemplateServerlessAppLambdaTokenAuthorizer42BE3046:Permissions": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "authorizerdevlambdaMyApiStackLambdaTokenAuthorizer7E7DFFBFPermissions2E8A50D1"
+            "data": "authorizerdevlambdaTemplateServerlessAppLambdaTokenAuthorizer42BE3046PermissionsAFCBB7E7"
           }
         ],
-        "/MyApiStack/auth-dev-lambda/Resource": [
+        "/TemplateServerlessApp/auth-dev-lambda/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "authdevlambda4C0D1575"
           }
         ],
-        "/MyApiStack/public-dev-lambda/Resource": [
+        "/TemplateServerlessApp/public-dev-lambda/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "publicdevlambda09B52B26"
           }
         ],
-        "/MyApiStack/private-dev-lambda/Resource": [
+        "/TemplateServerlessApp/private-dev-lambda/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "privatedevlambda78C52DCE"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Resource": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "restapidevapigatewayA45C1A6C"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/CloudWatchRole/Resource": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/CloudWatchRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "restapidevapigatewayCloudWatchRole2B9EB6BE"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Account": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Account": [
           {
             "type": "aws:cdk:logicalId",
             "data": "restapidevapigatewayAccount044E0E80"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Deployment/Resource": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "restapidevapigatewayDeployment1622DFFE5eabfe5fcbd1cc5d297b588dc474fcc9"
+            "data": "restapidevapigatewayDeployment1622DFFEa785ea2b10c117d3e78e1ff12e1f966e"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/DeploymentStage.dev/Resource": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/DeploymentStage.dev/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "restapidevapigatewayDeploymentStagedev8BC44AE2"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Endpoint": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Endpoint": [
           {
             "type": "aws:cdk:logicalId",
             "data": "restapidevapigatewayEndpoint5284EF5E"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Default/auth/Resource": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Default/auth/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "restapidevapigatewayauth5A1E7ADA"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Default/auth/POST/ApiPermission.MyApiStackrestapidevapigateway098A787E.POST..auth": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Default/auth/POST/ApiPermission.TemplateServerlessApprestapidevapigatewayDCAFE925.POST..auth": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "restapidevapigatewayauthPOSTApiPermissionMyApiStackrestapidevapigateway098A787EPOSTauth55AF4917"
+            "data": "restapidevapigatewayauthPOSTApiPermissionTemplateServerlessApprestapidevapigatewayDCAFE925POSTauth975A4F7A"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Default/auth/POST/ApiPermission.Test.MyApiStackrestapidevapigateway098A787E.POST..auth": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Default/auth/POST/ApiPermission.Test.TemplateServerlessApprestapidevapigatewayDCAFE925.POST..auth": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "restapidevapigatewayauthPOSTApiPermissionTestMyApiStackrestapidevapigateway098A787EPOSTauth969ADB2A"
+            "data": "restapidevapigatewayauthPOSTApiPermissionTestTemplateServerlessApprestapidevapigatewayDCAFE925POSTauth84B4C062"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Default/auth/POST/Resource": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Default/auth/POST/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "restapidevapigatewayauthPOSTC88136E8"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Default/public/Resource": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Default/public/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "restapidevapigatewaypublic5A71C36A"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Default/public/GET/ApiPermission.MyApiStackrestapidevapigateway098A787E.GET..public": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Default/public/GET/ApiPermission.TemplateServerlessApprestapidevapigatewayDCAFE925.GET..public": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "restapidevapigatewaypublicGETApiPermissionMyApiStackrestapidevapigateway098A787EGETpublicCDDCE587"
+            "data": "restapidevapigatewaypublicGETApiPermissionTemplateServerlessApprestapidevapigatewayDCAFE925GETpublicDFEF66C4"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Default/public/GET/ApiPermission.Test.MyApiStackrestapidevapigateway098A787E.GET..public": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Default/public/GET/ApiPermission.Test.TemplateServerlessApprestapidevapigatewayDCAFE925.GET..public": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "restapidevapigatewaypublicGETApiPermissionTestMyApiStackrestapidevapigateway098A787EGETpublicEF381492"
+            "data": "restapidevapigatewaypublicGETApiPermissionTestTemplateServerlessApprestapidevapigatewayDCAFE925GETpublic4F281852"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Default/public/GET/Resource": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Default/public/GET/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "restapidevapigatewaypublicGET73731839"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Default/private/Resource": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Default/private/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "restapidevapigatewayprivate859ABED9"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Default/private/GET/ApiPermission.MyApiStackrestapidevapigateway098A787E.GET..private": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Default/private/GET/ApiPermission.TemplateServerlessApprestapidevapigatewayDCAFE925.GET..private": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "restapidevapigatewayprivateGETApiPermissionMyApiStackrestapidevapigateway098A787EGETprivate0F80E62E"
+            "data": "restapidevapigatewayprivateGETApiPermissionTemplateServerlessApprestapidevapigatewayDCAFE925GETprivateF25766EA"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Default/private/GET/ApiPermission.Test.MyApiStackrestapidevapigateway098A787E.GET..private": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Default/private/GET/ApiPermission.Test.TemplateServerlessApprestapidevapigatewayDCAFE925.GET..private": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "restapidevapigatewayprivateGETApiPermissionTestMyApiStackrestapidevapigateway098A787EGETprivate761289B3"
+            "data": "restapidevapigatewayprivateGETApiPermissionTestTemplateServerlessApprestapidevapigatewayDCAFE925GETprivateDEFC9F11"
           }
         ],
-        "/MyApiStack/restapi-dev-apigateway/Default/private/GET/Resource": [
+        "/TemplateServerlessApp/restapi-dev-apigateway/Default/private/GET/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "restapidevapigatewayprivateGET3C0E4544"
           }
         ],
-        "/MyApiStack/LambdaTokenAuthorizer/Resource": [
+        "/TemplateServerlessApp/LambdaTokenAuthorizer/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "LambdaTokenAuthorizer5D128412"
           }
         ],
-        "/MyApiStack/users-dev-tableName": [
+        "/TemplateServerlessApp/users-dev-tableName": [
           {
             "type": "aws:cdk:logicalId",
             "data": "usersdevtableName"
           }
         ],
-        "/MyApiStack/actuals-dev-tableName": [
+        "/TemplateServerlessApp/actuals-dev-tableName": [
           {
             "type": "aws:cdk:logicalId",
             "data": "actualsdevtableName"
           }
         ],
-        "/MyApiStack/FinancialsTableName": [
+        "/TemplateServerlessApp/FinancialsTableName": [
           {
             "type": "aws:cdk:logicalId",
             "data": "FinancialsTableName"
           }
         ],
-        "/MyApiStack/forecast-dev-tableName": [
+        "/TemplateServerlessApp/forecast-dev-tableName": [
           {
             "type": "aws:cdk:logicalId",
             "data": "forecastdevtableName"
           }
         ],
-        "/MyApiStack/public-dev-lambdaArn": [
+        "/TemplateServerlessApp/public-dev-lambdaArn": [
           {
             "type": "aws:cdk:logicalId",
             "data": "publicdevlambdaArn"
           }
         ],
-        "/MyApiStack/private-dev-lambdaArn": [
+        "/TemplateServerlessApp/private-dev-lambdaArn": [
           {
             "type": "aws:cdk:logicalId",
             "data": "privatedevlambdaArn"
           }
         ],
-        "/MyApiStack/auth-dev-lambdaArn": [
+        "/TemplateServerlessApp/auth-dev-lambdaArn": [
           {
             "type": "aws:cdk:logicalId",
             "data": "authdevlambdaArn"
           }
         ],
-        "/MyApiStack/authorizer-dev-lambdaArn": [
+        "/TemplateServerlessApp/authorizer-dev-lambdaArn": [
           {
             "type": "aws:cdk:logicalId",
             "data": "authorizerdevlambdaArn"
           }
         ],
-        "/MyApiStack/JwtSecretArn": [
+        "/TemplateServerlessApp/JwtSecretArn": [
           {
             "type": "aws:cdk:logicalId",
             "data": "JwtSecretArn"
           }
         ],
-        "/MyApiStack/JwtRefreshSecretArn": [
+        "/TemplateServerlessApp/JwtRefreshSecretArn": [
           {
             "type": "aws:cdk:logicalId",
             "data": "JwtRefreshSecretArn"
           }
         ],
-        "/MyApiStack/ApiEndpoint": [
+        "/TemplateServerlessApp/ApiEndpoint": [
           {
             "type": "aws:cdk:logicalId",
             "data": "ApiEndpoint"
           }
         ],
-        "/MyApiStack/CDKMetadata/Default": [
+        "/TemplateServerlessApp/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
           }
         ],
-        "/MyApiStack/CDKMetadata/Condition": [
+        "/TemplateServerlessApp/CDKMetadata/Condition": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadataAvailable"
           }
         ],
-        "/MyApiStack/BootstrapVersion": [
+        "/TemplateServerlessApp/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "BootstrapVersion"
           }
         ],
-        "/MyApiStack/CheckBootstrapVersion": [
+        "/TemplateServerlessApp/CheckBootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
         ]
       },
-      "displayName": "MyApiStack"
+      "displayName": "TemplateServerlessApp"
     },
     "Tree": {
       "type": "cdk:tree",
