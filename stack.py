@@ -9,10 +9,9 @@ from aws_cdk import (
     CfnOutput
 )
 from constructs import Construct
-from aws_cdk.aws_lambda_python_alpha import PythonFunction
-from aws_cdk import Duration
-from pathlib import Path
-from aws_cdk.aws_lambda import Runtime
+
+
+
 def generate_name(name,env,type):
     return f"{name}-{env}-{type}"
 class MyApiStack(Stack):
@@ -227,15 +226,7 @@ class MyApiStack(Stack):
             layers=[utils_layer]
         )
         
-        # authorizer_lambda = PythonFunction(
-        #     self, generate_name('authorizer', 'dev', 'lambda'),
-        #     entry=str(Path(__file__).parent / "src/authorizer"),  # folder containing handler.py + requirements.txt
-        #     runtime=Runtime.PYTHON_3_12,
-        #     index="handler.py",
-        #     handler="authorizer",
-        #     timeout=Duration.seconds(10)
-        # )
-        
+   
 
         auth_lambda = _lambda.Function(
             self, generate_name('auth', 'dev', 'lambda'),
