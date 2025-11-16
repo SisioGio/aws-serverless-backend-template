@@ -60,6 +60,10 @@ def lambda_handler(event, context):
         return create_financial_record(event,context)
     if http_method == 'GET' and path == '/private/financial':
         return get_financial_entries(event,context)
+    if http_method == 'POST' and path == '/private/actual':
+        return add_actual_record(event,context)
+    if http_method == 'GET' and path == '/private/actual':
+        return get_actuals_entries(event,context)
     else:
         return generate_response(404, {"message": "Invalid route"})
 
@@ -152,7 +156,6 @@ def generate_response(statusCode,message):
         'body': json.dumps(message,default=decimal_default)
     }
     
-    
 def add_financial_record(email,type,amount,category,description,recurrence,start_date,end_date):
     
     unique_id = str(uuid.uuid4())
@@ -168,9 +171,68 @@ def add_financial_record(email,type,amount,category,description,recurrence,start
         'amount':Decimal(str(amount))
     })
     
-    
-    
 def decimal_default(obj):
     if isinstance(obj, Decimal):
         return float(obj)
     raise TypeError
+
+
+@tracer.capture_lambda_handler
+@metrics.log_metrics
+def add_actual_record(event,context):
+
+    body = json.loads(event['body'])
+    logger.info("Creating actual record", extra={"body": body})
+    params_required = ['type','amount','category','description','date'] 
+    valid,response = validate_body(body,params_required) 
+    if not valid: 
+        return response 
+    req_context = event['requestContext']
+    authorizer=req_context['authorizer']
+    email=authorizer['email']
+    # Extract parameters safely
+    type_ = body['type']
+    amount = body['amount']
+    category = body['category']
+    description = body['description']
+    date = body['date']
+    
+    unique_id = str(uuid.uuid4())
+    actuals_table.put_item(Item={
+        'email':email,
+        'record_id':unique_id,
+        'date':date,
+        'type':type_,
+        'category':category,
+        'description':description,
+        'amount':Decimal(str(amount))
+    })
+    
+    metrics.add_metric(name="RecordsCreated", unit=MetricUnit.Count, value=1) 
+    return generate_response(200, {"message": "Financial record created successfully"})
+
+
+def get_actuals_entries(event, context):
+    # Extract the email from the event (assuming it's passed in JSON)
+    print("Retrieving financial entries")
+    email = 'user@example.com'
+    req_context = event['requestContext']
+    authorizer=req_context['authorizer']
+    email=authorizer['email']
+
+    try:
+        # Query items where 'email' is equal to the given email
+        response = actuals_table.query(
+            IndexName="EmailIndex",
+            KeyConditionExpression=Key('email').eq(email)
+        )
+        
+        items = response.get('Items', [])
+
+        return generate_response(200,{"items":items})
+
+    except Exception as e:
+        return generate_response(500,{"message":str(e)})
+    
+    
+    

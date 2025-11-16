@@ -39,17 +39,17 @@ class MyApiStack(Stack):
                                     ))
         table_actuals = dynamo.Table(
             self,
-            generate_name('actualsdt', 'dev', 'table'),  # CDK logical ID
-            table_name=generate_name('actualsdt', 'dev', 'table'),  # actual table name
+            generate_name('actuals', 'dev', 'table'),
+            table_name=generate_name('actuals', 'dev', 'table'),
             partition_key=dynamo.Attribute(
-                name="email",
+                name="record_id",
                 type=dynamo.AttributeType.STRING
             ),
             sort_key=dynamo.Attribute(
                 name="date",
-                type=dynamo.AttributeType.STRING  # or NUMBER if it’s a timestamp
+                type=dynamo.AttributeType.STRING
             ),
-            removal_policy=RemovalPolicy.DESTROY  # optional, for dev environment
+            removal_policy=RemovalPolicy.DESTROY
         )
         
         # GSI to query by email
@@ -69,13 +69,13 @@ class MyApiStack(Stack):
         table_forecasts = dynamo.Table(
             self,
             generate_name('forecast', 'dev', 'table'),  # CDK logical ID
-            table_name=generate_name('forecastdt', 'dev', 'table'),  # actual table name
+            table_name=generate_name('forecast', 'dev', 'table'),  # actual table name
             partition_key=dynamo.Attribute(
-                name="forecast_id",
+                name="record_id",
                 type=dynamo.AttributeType.STRING
             ),
             sort_key=dynamo.Attribute(
-                name="date",
+                name="forecast_id",
                 type=dynamo.AttributeType.STRING  # or NUMBER if it’s a timestamp
             ),
             removal_policy=RemovalPolicy.DESTROY  # optional, for dev environment
@@ -88,7 +88,7 @@ class MyApiStack(Stack):
                 type=dynamo.AttributeType.STRING
             ),
             sort_key=dynamo.Attribute(
-                name="date",
+                name="forecast_id",
                 type=dynamo.AttributeType.STRING
             ),
             projection_type=dynamo.ProjectionType.ALL
@@ -100,7 +100,7 @@ class MyApiStack(Stack):
         table_financials = dynamo.Table(
             self,
             "FinancialsTable",
-            table_name="financialsdt-dev",
+            table_name="financials-dev",
             partition_key=dynamo.Attribute(
                 name="record_id",
                 type=dynamo.AttributeType.STRING
