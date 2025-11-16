@@ -9,7 +9,7 @@ from aws_cdk import (
     CfnOutput
 )
 from constructs import Construct
-
+from aws_cdk import Duration
 
 
 def generate_name(name,env,type):
@@ -272,7 +272,7 @@ class MyApiStack(Stack):
                 allow_origins=apigw.Cors.ALL_ORIGINS,  # or list of allowed origins
                 allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
                 allow_headers=["Authorization", "Content-Type", "X-Amz-Date", "X-Api-Key", "X-Amz-Security-Token"],
-                max_age=3600
+                max_age=Duration.seconds(3600)
             )
         )
         
