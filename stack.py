@@ -56,10 +56,14 @@ class MyApiStack(Stack):
         # GSI to query by email
         table_actuals.add_global_secondary_index(
             index_name="EmailIndex",
-            partition_key=dynamo.Attribute(
+            partition_key= dynamo.Attribute(
                 name="email",
                 type=dynamo.AttributeType.STRING
-            )
+            ),
+            sort_key=dynamo.Attribute(
+                name="date",
+                type=dynamo.AttributeType.STRING
+            ),
             projection_type=dynamo.ProjectionType.ALL
         )
         
@@ -83,7 +87,11 @@ class MyApiStack(Stack):
             partition_key=dynamo.Attribute(
                 name="email",
                 type=dynamo.AttributeType.STRING
-            )
+            ),
+            sort_key=dynamo.Attribute(
+                name="date",
+                type=dynamo.AttributeType.STRING
+            ),
             projection_type=dynamo.ProjectionType.ALL
         )
         
@@ -110,7 +118,11 @@ class MyApiStack(Stack):
             partition_key=dynamo.Attribute(
                 name="email",
                 type=dynamo.AttributeType.STRING
-            )
+            ),
+            sort_key=dynamo.Attribute(
+                name="date",
+                type=dynamo.AttributeType.STRING
+            ),
             projection_type=dynamo.ProjectionType.ALL
         )
         
