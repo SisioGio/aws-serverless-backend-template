@@ -17,13 +17,18 @@ def build_event(method="GET", path="/auth/register", body=None, params=None):
         "httpMethod": method.upper(),
         "path": path,
         "queryStringParameters": params or {},
-        "body": json.dumps(body or {})
+        "body": json.dumps(body or {}),
+        'requestContext':{
+          'authorizer':{
+            'email':"alessiogiovannini23@gmail.com"
+          }
+        }
     }
 
 
 def test_get_items():
     
 
-    ev = build_event("GET", "/financial")
+    ev = build_event("GET", "/private/financial")
     res = lambda_handler(ev, {})
     assert res["statusCode"] == 200

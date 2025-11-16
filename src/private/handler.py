@@ -128,7 +128,8 @@ def get_financial_entries(event, context):
     try:
         # Query items where 'email' is equal to the given email
         response = financials_table.query(
-            KeyConditionExpression=Key('email').eq(email)
+            IndexName="EmailIndex",               # <-- REQUIRED for GSI
+            KeyConditionExpression=Key('email').eq(email)  # <-- use the attribute name, NOT index name
         )
         
         items = response.get('Items', [])
