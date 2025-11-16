@@ -9,8 +9,10 @@ from aws_cdk import (
     CfnOutput
 )
 from constructs import Construct
-
-
+from aws_cdk.aws_lambda_python_alpha import PythonFunction
+from aws_cdk import Duration
+from pathlib import Path
+from aws_cdk.aws_lambda import Runtime
 def generate_name(name,env,type):
     return f"{name}-{env}-{type}"
 class MyApiStack(Stack):
@@ -50,12 +52,23 @@ class MyApiStack(Stack):
             ),
             removal_policy=RemovalPolicy.DESTROY  # optional, for dev environment
         )
+        
+        # GSI to query by email
+        table_actuals.add_global_secondary_index(
+            index_name="EmailIndex",
+            partition_key=dynamo.Attribute(
+                name="email",
+                type=dynamo.AttributeType.STRING
+            )
+            projection_type=dynamo.ProjectionType.ALL
+        )
+        
         table_forecasts = dynamo.Table(
             self,
             generate_name('forecast', 'dev', 'table'),  # CDK logical ID
             table_name=generate_name('forecast', 'dev', 'table'),  # actual table name
             partition_key=dynamo.Attribute(
-                name="email",
+                name="forecast_id",
                 type=dynamo.AttributeType.STRING
             ),
             sort_key=dynamo.Attribute(
@@ -63,22 +76,44 @@ class MyApiStack(Stack):
                 type=dynamo.AttributeType.STRING  # or NUMBER if it’s a timestamp
             ),
             removal_policy=RemovalPolicy.DESTROY  # optional, for dev environment
-        )       
+        )
+        # GSI to query by email
+        table_forecasts.add_global_secondary_index(
+            index_name="EmailIndex",
+            partition_key=dynamo.Attribute(
+                name="email",
+                type=dynamo.AttributeType.STRING
+            )
+            projection_type=dynamo.ProjectionType.ALL
+        )
+        
+        
+        
         # Main DynamoDB table
         table_financials = dynamo.Table(
             self,
             "FinancialsTable",
             table_name="financials-dev",
             partition_key=dynamo.Attribute(
-                name="email",
+                name="record_id",
                 type=dynamo.AttributeType.STRING
             ),
             sort_key=dynamo.Attribute(
-                name="date",
+                name="start_date",
                 type=dynamo.AttributeType.STRING
             ),
             removal_policy=RemovalPolicy.DESTROY  # Use RETAIN in production
         )
+        # GSI to query by recurrence and type
+        table_financials.add_global_secondary_index(
+            index_name="EmailIndex",
+            partition_key=dynamo.Attribute(
+                name="email",
+                type=dynamo.AttributeType.STRING
+            )
+            projection_type=dynamo.ProjectionType.ALL
+        )
+        
         # GSI to query by recurrence and type
         table_financials.add_global_secondary_index(
             index_name="RecurrenceTypeIndex",
@@ -100,7 +135,7 @@ class MyApiStack(Stack):
                 type=dynamo.AttributeType.STRING
             ),
             sort_key=dynamo.Attribute(
-                name="date",
+                name="start_date",
                 type=dynamo.AttributeType.STRING
             ),
             projection_type=dynamo.ProjectionType.ALL
@@ -169,7 +204,7 @@ class MyApiStack(Stack):
             description="Shared utils"
         )
         
-        # --- Lambda functions ---
+        # # --- Lambda functions ---
         authorizer_lambda = _lambda.Function(
             self, generate_name('authorizer', 'dev', 'lambda'),
             runtime=_lambda.Runtime.PYTHON_3_12,
@@ -179,6 +214,16 @@ class MyApiStack(Stack):
             role=shared_lambda_role,
             layers=[utils_layer]
         )
+        
+        # authorizer_lambda = PythonFunction(
+        #     self, generate_name('authorizer', 'dev', 'lambda'),
+        #     entry=str(Path(__file__).parent / "src/authorizer"),  # folder containing handler.py + requirements.txt
+        #     runtime=Runtime.PYTHON_3_12,
+        #     index="handler.py",
+        #     handler="authorizer",
+        #     timeout=Duration.seconds(10)
+        # )
+        
 
         auth_lambda = _lambda.Function(
             self, generate_name('auth', 'dev', 'lambda'),
@@ -219,12 +264,19 @@ class MyApiStack(Stack):
             endpoint_configuration=apigw.EndpointConfiguration(
                 types=[apigw.EndpointType.REGIONAL]
             ),
-            deploy_options=apigw.StageOptions(stage_name="dev")
+            deploy_options=apigw.StageOptions(stage_name="dev"),
+            default_cors_preflight_options=apigw.CorsOptions(
+                allow_origins=apigw.Cors.ALL_ORIGINS,  # or list of allowed origins
+                allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+                allow_headers=["Authorization", "Content-Type", "X-Amz-Date", "X-Api-Key", "X-Amz-Security-Token"],
+                max_age=3600
+            )
         )
         
         # --- Create Lambda integrations ---
         public_integration = apigw.LambdaIntegration(public_lambda)
         private_integration = apigw.LambdaIntegration(private_lambda)
+        
         auth_integration = apigw.LambdaIntegration(auth_lambda)
         
         # --- Define a Lambda authorizer ---
@@ -234,6 +286,7 @@ class MyApiStack(Stack):
             handler=authorizer_lambda,
             identity_source=apigw.IdentitySource.header("Authorization")
         )
+        
 
         # /auth (for login/register)
         auth_resource = api.root.add_resource("auth")
@@ -245,13 +298,24 @@ class MyApiStack(Stack):
 
         # /private (protected route)
         private_resource = api.root.add_resource("private")
-        private_resource.add_method(
-            "GET",
+        proxy = private_resource.add_resource("{proxy+}")
+        proxy.add_method(
+            "ANY",
             private_integration,
             authorizer=token_authorizer,
-            authorization_type=apigw.AuthorizationType.CUSTOM
+            authorization_type=apigw.AuthorizationType.CUSTOM,
+            method_responses=[
+                apigw.MethodResponse(
+                    status_code="200",
+                    response_parameters={
+                        "method.response.header.Access-Control-Allow-Origin": True,
+                        "method.response.header.Access-Control-Allow-Headers": True,
+                        "method.response.header.Access-Control-Allow-Methods": True,
+                    },
+                )
+            ],
         )
-        
+
         
         
         # Output API URL

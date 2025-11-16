@@ -8,6 +8,7 @@ import bcrypt
 import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta,UTC
+dynamodb = boto3.resource('dynamodb')
 load_dotenv()
 JWT_SECRET_NAME = os.environ.get("JWT_SECRET_NAME")
 REFRESH_SECRET_NAME= os.environ.get('REFRESH_SECRET_NAME')
@@ -15,6 +16,19 @@ FRONTEND_BASE_URL = os.environ.get("FRONTEND_BASE_URL", "https://localhost:3000/
 JWT_EXPIRATION = int(os.environ.get('JWT_EXPIRATION', int(3600)))
 ACCESS_TOKEN_EXPIRATION = int(os.environ.get('ACCESS_TOKEN_EXPIRATION',int(60*60*24*14)))
 APP_NAME=os.getenv("APP_NAME")
+
+# TABLES
+TABLE_USERS= os.environ.get('TABLE_USERS')
+TABLE_ACTUALS = os.environ.get('TABLE_ACTUALS')
+TABLE_FINANCIALS=os.environ.get('TABLE_FINANCIALS')
+TABLE_FORECAST=os.environ.get('TABLE_FORECAST')
+
+
+users_table = dynamodb.Table(TABLE_USERS)
+actuals_table = dynamodb.Table(TABLE_ACTUALS)
+financials_table = dynamodb.Table(TABLE_FINANCIALS)
+forecast_table = dynamodb.Table(TABLE_FORECAST)
+
 
 def get_secret(secret_name: str, region_name: str = "eu-central-1"):
     """
@@ -67,3 +81,16 @@ def generate_response(statusCode,message):
                         },
         'body': json.dumps(message)
     }
+    
+    
+def add_financial_record(email,type,amount,category,description,recurrence,start_date,end_date):
+    financials_table.put_item(Item={
+        'email':email,
+        'date':start_date,
+        'end_date':end_date,
+        'recurrence':recurrence,
+        'type':type,
+        'category':category,
+        'description':description,
+        'amount':amount
+    })
