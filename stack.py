@@ -100,7 +100,7 @@ class MyApiStack(Stack):
         table_financials = dynamo.Table(
             self,
             "FinancialsTable",
-            table_name="financials-dev",
+            table_name="financialsdt-dev",
             partition_key=dynamo.Attribute(
                 name="record_id",
                 type=dynamo.AttributeType.STRING
@@ -119,7 +119,7 @@ class MyApiStack(Stack):
                 type=dynamo.AttributeType.STRING
             ),
             sort_key=dynamo.Attribute(
-                name="date",
+                name="start_date",
                 type=dynamo.AttributeType.STRING
             ),
             projection_type=dynamo.ProjectionType.ALL

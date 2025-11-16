@@ -60,10 +60,15 @@ def lambda_handler(event, context):
         return create_financial_record(event,context)
     if http_method == 'GET' and path == '/private/financial':
         return get_financial_entries(event,context)
+    if http_method == 'DELETE' and path == '/private/financial':
+        return delete_financial_entry(event,context)
+    
     if http_method == 'POST' and path == '/private/actual':
         return add_actual_record(event,context)
     if http_method == 'GET' and path == '/private/actual':
         return get_actuals_entries(event,context)
+    if http_method == 'DELETE' and path == '/private/actual':
+        return delete_actual_entry(event,context)
     else:
         return generate_response(404, {"message": "Invalid route"})
 
@@ -107,7 +112,7 @@ def create_financial_record(event,context):
     end_date = body['end_date']
 
     # Call your internal function to save the record
-    add_financial_record(
+    record_id = add_financial_record(
         email=email,
         type=type_,
         amount=amount,
@@ -118,7 +123,7 @@ def create_financial_record(event,context):
         end_date=end_date
     )
     metrics.add_metric(name="RecordsCreated", unit=MetricUnit.Count, value=1) 
-    return generate_response(200, {"message": "Financial record created successfully"})
+    return generate_response(200, {"message": "Financial record created successfully",'record_id':record_id})
 
 
 def get_financial_entries(event, context):
@@ -156,6 +161,8 @@ def generate_response(statusCode,message):
         'body': json.dumps(message,default=decimal_default)
     }
     
+
+    
 def add_financial_record(email,type,amount,category,description,recurrence,start_date,end_date):
     
     unique_id = str(uuid.uuid4())
@@ -170,7 +177,36 @@ def add_financial_record(email,type,amount,category,description,recurrence,start
         'description':description,
         'amount':Decimal(str(amount))
     })
+    return unique_id
+
+
+def delete_financial_entry(event, context):
+    # record_id comes from query params: ?record_id=123
+    record_id = event["queryStringParameters"]["record_id"]
+    start_date = event["queryStringParameters"]["start_date"]
+    try:
+        # Delete the item by primary key
+        financials_table.delete_item(
+            Key={"record_id": record_id,"start_date":start_date}
+        )
+
+        return generate_response(
+            200,
+            {"message": f"Record {record_id} deleted successfully"}
+        )
+
+    except Exception as e:
+        print("Error deleting record:", e)
+        return generate_response(
+            500,
+            {"message": "Error deleting record", "error": str(e)}
+        )
+
     
+    
+    
+
+      
 def decimal_default(obj):
     if isinstance(obj, Decimal):
         return float(obj)
@@ -234,5 +270,26 @@ def get_actuals_entries(event, context):
     except Exception as e:
         return generate_response(500,{"message":str(e)})
     
-    
+
+def delete_actual_entry(event, context):
+    # record_id comes from query params: ?record_id=123
+    record_id = event["queryStringParameters"]["record_id"]
+    date = event["queryStringParameters"]["date"]
+    try:
+        # Delete the item by primary key
+        actuals_table.delete_item(
+            Key={"record_id": record_id,"date":date}
+        )
+
+        return generate_response(
+            200,
+            {"message": f"Record {record_id} deleted successfully"}
+        )
+
+    except Exception as e:
+        print("Error deleting record:", e)
+        return generate_response(
+            500,
+            {"message": "Error deleting record", "error": str(e)}
+        )
     
