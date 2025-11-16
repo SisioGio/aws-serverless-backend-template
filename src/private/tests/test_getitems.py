@@ -32,3 +32,4 @@ def test_get_items():
     ev = build_event("GET", "/private/financial")
     res = lambda_handler(ev, {})
     assert res["statusCode"] == 200
+

@@ -83,14 +83,18 @@ def create_financial_record(event,context):
     
     body = json.loads(event['body'])
     logger.info("Creating financial record", extra={"body": body})
-    params_required = ['email','type','amount','category','description','recurrence','start_date','end_date'] 
+    params_required = ['type','amount','category','description','recurrence','start_date','end_date'] 
     valid,response = validate_body(body,params_required) 
     if not valid: 
         return response 
     
+    
+    req_context = event['requestContext']
+    authorizer=req_context['authorizer']
+    email=authorizer['email']
+    
     # Extract parameters safely
-    email = body['email']
-    type_ = body['type']  # Avoid using reserved keywords like `type`
+    type_ = body['type']
     amount = body['amount']
     category = body['category']
     description = body['description']
@@ -120,11 +124,7 @@ def get_financial_entries(event, context):
     req_context = event['requestContext']
     authorizer=req_context['authorizer']
     email=authorizer['email']
-    # 'requestContext': {'resourceId': 'lxlbta', 'authorizer': 
-    # {'sub': '102982602460436451445', 'name': 'Alessio Giovannini', 
-    # 'principalId': 'alessiogiovannini23@gmail.com', 
-    # 'integrationLatency': 0, 'exp': '1763293799', 
-    # 'iat': '1763250599', 'email': 'alessiogiovannini23@gmail.com', 
+
     try:
         # Query items where 'email' is equal to the given email
         response = financials_table.query(
@@ -159,7 +159,7 @@ def add_financial_record(email,type,amount,category,description,recurrence,start
     financials_table.put_item(Item={
         'email':email,
         'record_id':unique_id,
-        'date':start_date,
+        'start_date':start_date,
         'end_date':end_date,
         'recurrence':recurrence,
         'type':type,
