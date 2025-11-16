@@ -39,8 +39,8 @@ class MyApiStack(Stack):
                                     ))
         table_actuals = dynamo.Table(
             self,
-            generate_name('actuals', 'dev', 'table'),  # CDK logical ID
-            table_name=generate_name('actuals', 'dev', 'table'),  # actual table name
+            generate_name('actualsdt', 'dev', 'table'),  # CDK logical ID
+            table_name=generate_name('actualsdt', 'dev', 'table'),  # actual table name
             partition_key=dynamo.Attribute(
                 name="email",
                 type=dynamo.AttributeType.STRING
@@ -69,7 +69,7 @@ class MyApiStack(Stack):
         table_forecasts = dynamo.Table(
             self,
             generate_name('forecast', 'dev', 'table'),  # CDK logical ID
-            table_name=generate_name('forecast', 'dev', 'table'),  # actual table name
+            table_name=generate_name('forecastdt', 'dev', 'table'),  # actual table name
             partition_key=dynamo.Attribute(
                 name="forecast_id",
                 type=dynamo.AttributeType.STRING
@@ -100,7 +100,7 @@ class MyApiStack(Stack):
         table_financials = dynamo.Table(
             self,
             "FinancialsTable",
-            table_name="financials-dev",
+            table_name="financialsdt-dev",
             partition_key=dynamo.Attribute(
                 name="record_id",
                 type=dynamo.AttributeType.STRING
@@ -281,6 +281,7 @@ class MyApiStack(Stack):
         private_integration = apigw.LambdaIntegration(private_lambda)
         
         auth_integration = apigw.LambdaIntegration(auth_lambda)
+        
         
         # --- Define a Lambda authorizer ---
         token_authorizer = apigw.TokenAuthorizer(
